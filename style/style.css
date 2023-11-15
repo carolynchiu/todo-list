@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300;400;500;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f5ebe0;
+  font-family: "Playpen Sans", cursive;
+}
+
+header {
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 0rem;
+}
+header h1 {
+  color: #5e503f;
+  font-size: 3rem;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+form button {
+  padding: 0.25rem 0.5rem;
+  font-size: 1.75rem;
+  margin: 0.1rem;
+}
+form button {
+  cursor: pointer;
+  background-color: #5e503f;
+  color: #fff;
+  border: none;
+}
+
+.section--todo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.section--todo .todo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  margin: 0.2rem;
+  transition: all 0.3s ease;
+}
+.section--todo .todo .todo-text,
+.section--todo .todo .todo-date {
+  background-color: #fffcf2;
+  color: #563e2f;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.75rem;
+}
+.section--todo .todo .todo-text {
+  width: 50%;
+}
+.section--todo .todo .todo-date {
+  width: 20%;
+  text-align: center;
+}
+.section--todo .todo .btn--check,
+.section--todo .todo .btn--remove {
+  cursor: pointer;
+  background-color: #a3aa8b;
+  color: #fff;
+  padding: 0.5rem 0.5rem;
+  font-size: 1.75rem;
+  border: none;
+}
+.section--todo .todo .btn--remove {
+  background-color: #88363f;
+}
+.section--todo .done {
+  opacity: 0.3;
+}
+
+.sort {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.sort button {
+  cursor: pointer;
+  background-color: #43465f;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border: none;
+}
+
+ion-icon {
+  --ionicon-stroke-width: 4.8rem;
+  pointer-events: none;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes scaleDown {
+  to {
+    transform: scale(0);
+  }
+}
+.wave-group {
+  position: relative;
+  margin-right: 5px;
+}
+.wave-group .input {
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  width: 75px;
+  border: none;
+  border-bottom: 1px solid #515151;
+  background: transparent;
+}
+.wave-group .input--todo {
+  width: 350px;
+}
+.wave-group .input:focus {
+  outline: none;
+}
+.wave-group .label {
+  color: #999;
+  font-size: 16px;
+  font-weight: normal;
+  position: absolute;
+  pointer-events: none;
+  left: 5px;
+  top: 10px;
+  display: flex;
+}
+.wave-group .label-char {
+  transition: 0.2s ease all;
+  transition-delay: calc(var(--index) * 0.05s);
+}
+.wave-group .input:focus ~ label .label-char,
+.wave-group .input:valid ~ label .label-char {
+  transform: translateY(-20px);
+  font-size: 14px;
+  color: #5e503f;
+}
+.wave-group .bar {
+  position: relative;
+  display: block;
+}
+.wave-group .bar:before, .wave-group .bar:after {
+  content: "";
+  height: 2px;
+  width: 0;
+  bottom: 1px;
+  position: absolute;
+  background: #5e503f;
+  transition: 0.2s ease all;
+  -moz-transition: 0.2s ease all;
+  -webkit-transition: 0.2s ease all;
+}
+.wave-group .bar:before {
+  left: 50%;
+}
+.wave-group .bar:after {
+  right: 50%;
+}
+.wave-group .input:focus ~ .bar:before,
+.wave-group .input:focus ~ .bar:after {
+  width: 50%;
+}
+
+.btn--add {
+  margin: 5px 0px 0px 5px;
+  padding: 6px 8px;
+  border: unset;
+  border-radius: 10px;
+  color: #5e503f;
+  z-index: 1;
+  background: #f5ebe0;
+  position: relative;
+  font-weight: 500;
+  font-size: 18px;
+  border: 1px solid #5e503f;
+  transition: all 250ms;
+  overflow: hidden;
+}
+.btn--add::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 10px;
+  background-color: #5e503f;
+  z-index: -1;
+  transition: all 250ms;
+}
+.btn--add:hover {
+  color: #e8e8e8;
+}
+.btn--add:hover::before {
+  width: 100%;
+}/*# sourceMappingURL=style.css.map */

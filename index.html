@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+            type="module"
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+        ></script>
+        <script
+            nomodule
+            src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+        ></script>
+        <link rel="stylesheet" href="./style/style.css" />
+        <title>My Todo List</title>
+    </head>
+    <body>
+        <header><h1>My Todo List</h1></header>
+        <form>
+            <!-- month -->
+            <div class="wave-group">
+                <input
+                    required=""
+                    type="number"
+                    class="input input--mm"
+                    id="input--month"
+                    min="1"
+                    max="12"
+                />
+                <span class="bar"></span>
+                <label class="label">
+                    <span class="label-char" style="--index: 0">M</span>
+                    <span class="label-char" style="--index: 1">M</span>
+                </label>
+            </div>
+            <!-- day -->
+            <div class="wave-group">
+                <input
+                    required=""
+                    type="number"
+                    class="input input--dd"
+                    id="input--day"
+                    min="1"
+                    max="31"
+                />
+                <span class="bar"></span>
+                <label class="label">
+                    <span class="label-char" style="--index: 0">D</span>
+                    <span class="label-char" style="--index: 1">D</span>
+                </label>
+            </div>
+            <!-- todo content -->
+            <div class="wave-group">
+                <input
+                    required=""
+                    type="text"
+                    class="input input--todo"
+                    id="input--text"
+                />
+                <span class="bar"></span>
+                <label class="label">
+                    <span class="label-char" style="--index: 0">T</span>
+                    <span class="label-char" style="--index: 1">O</span>
+                    <span class="label-char" style="--index: 2">D</span>
+                    <span class="label-char" style="--index: 3">O</span>
+                </label>
+            </div>
+            <!-- add btn -->
+            <button type="submit" class="btn btn--add">
+                <ion-icon name="add-outline" class="btn--icon"></ion-icon>
+            </button>
+        </form>
+
+        <!-- <div class="sort">
+            <button>Sort By Time</button>
+        </div> -->
+
+        <section class="section--todo"></section>
+    </body>
+    <script src="./app.js"></script>
+</html>
+
