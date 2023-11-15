@@ -7,7 +7,6 @@ let checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon
 let removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
 
 const validateInput = () => {
-    console.log(todoInput.value, monthInput.value, dayInput.value);
     if (!todoInput.value) {
         alert("Please enter some text !");
         return false;
@@ -72,18 +71,15 @@ const createTodoList = (content, month, day) => {
 const toggleItemDone = (event) => {
     event.preventDefault();
     const todoItem = event.target.parentElement;
-    console.log(todoItem);
     todoItem.classList.toggle("done");
 };
 
 const removeTodoItem = (event) => {
     event.preventDefault();
     const todoItem = event.target.parentElement;
-    console.log("---remove todo---", todoItem);
     todoItem.addEventListener("animationend", () => {
         //remove from localstorage
         const text = todoItem.children[0].innerText;
-        console.log(text);
         const myListArray = JSON.parse(localStorage.getItem("list"));
         myListArray.forEach((item, index) => {
             if (item.myTodoText == text) {
