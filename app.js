@@ -37,7 +37,8 @@ const createHtmlElement = (elementProperties) => {
     return domElement;
 };
 
-const createTodoList = (content, month, day) => {
+const createTodoList = (ListItem) => {
+    const { content, month, day } = ListItem;
     const todo = createHtmlElement({ element: "div", className: "todo" });
     // todo text
     const text = createHtmlElement({
@@ -123,11 +124,11 @@ const addTodo = () => {
     // 表單驗證
     if (!validateInput()) return;
     // 新增 todo item
-    const todo = createTodoList(
-        todoInput.value,
-        monthInput.value,
-        dayInput.value
-    );
+    const todo = createTodoList({
+        content: todoInput.value,
+        month: monthInput.value,
+        day: dayInput.value,
+    });
     todo.style.animation = "scaleUp 0.3s forwards";
     todoContainer.appendChild(todo);
     updateLocalStorage();
@@ -148,11 +149,11 @@ if (myList !== null) {
     let myListArray = JSON.parse(myList);
     myListArray.forEach((item) => {
         // create a todo
-        const todo = createTodoList(
-            item.myTodoText,
-            item.myTodoMonth,
-            item.myTodoDay
-        );
+        const todo = createTodoList({
+            content: item.myTodoText,
+            month: item.myTodoMonth,
+            day: item.myTodoDay,
+        });
         todoContainer.appendChild(todo);
     });
 }
