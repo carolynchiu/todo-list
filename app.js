@@ -24,42 +24,49 @@ const cleanInputFields = () => {
     dayInput.value = "";
 };
 
-const createHtmlElement = (el, className, innerText, innerHTML) => {
-    let element = document.createElement(el);
-    element.classList.add(className);
+const createHtmlElement = (elementProperties) => {
+    const { element, className, innerText, innerHTML } = elementProperties;
+    let domElement = document.createElement(element);
+    domElement.classList.add(className);
     if (innerText) {
-        element.innerText = innerText;
+        domElement.innerText = innerText;
     }
     if (innerHTML) {
-        element.innerHTML = innerHTML;
+        domElement.innerHTML = innerHTML;
     }
-    return element;
+    return domElement;
 };
 
 const createTodoList = (content, month, day) => {
-    const todo = createHtmlElement("div", "todo");
+    const todo = createHtmlElement({ element: "div", className: "todo" });
     // todo text
-    const text = createHtmlElement("p", "todo-text", content);
+    const text = createHtmlElement({
+        element: "p",
+        className: "todo-text",
+        innerText: content,
+    });
     todo.appendChild(text);
     // todo date
     let dateValue = `${month} / ${day}`;
-    const date = createHtmlElement("p", "todo-date", dateValue);
+    const date = createHtmlElement({
+        element: "p",
+        className: "todo-date",
+        innerText: dateValue,
+    });
     todo.appendChild(date);
     // create check button
-    const checkButton = createHtmlElement(
-        "button",
-        "btn--check",
-        "",
-        checkIcon
-    );
+    const checkButton = createHtmlElement({
+        element: "button",
+        className: "btn--check",
+        innerHTML: checkIcon,
+    });
     todo.appendChild(checkButton);
     // create remove button
-    const removeButton = createHtmlElement(
-        "button",
-        "btn--remove",
-        "",
-        removeIcon
-    );
+    const removeButton = createHtmlElement({
+        element: "button",
+        className: "btn--remove",
+        innerHTML: removeIcon,
+    });
     todo.appendChild(removeButton);
 
     checkButton.addEventListener("click", (e) => toggleItemDone(e));
