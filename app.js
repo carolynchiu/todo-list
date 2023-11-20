@@ -6,7 +6,8 @@ const monthInput = document.getElementById("input--month");
 const dayInput = document.getElementById("input--day");
 const checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
 const removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
-const todoList = localStorage.getItem("list");
+let todoList = localStorage.getItem("list");
+let myListArray = JSON.parse(todoList);
 
 const validateInput = () => {
     if (!todoInput.value) {
@@ -27,21 +28,22 @@ const cleanInputFields = () => {
 };
 
 const createHtmlElement = (elementProperties) => {
-    const { element, className, innerText, innerHTML } = elementProperties;
+    const { element, id, className, innerText, innerHTML } = elementProperties;
     let domElement = document.createElement(element);
-    domElement.classList.add(className);
-    if (innerText) {
-        domElement.innerText = innerText;
-    }
-    if (innerHTML) {
-        domElement.innerHTML = innerHTML;
-    }
+    if (id) domElement.setAttribute("id", id);
+    if (className) domElement.classList.add(className);
+    if (innerText) domElement.innerText = innerText;
+    if (innerHTML) domElement.innerHTML = innerHTML;
     return domElement;
 };
 
 const createTodoList = (ListItem) => {
-    const { content, month, day } = ListItem;
-    const todo = createHtmlElement({ element: "div", className: "todo" });
+    const { id, content, month, day } = ListItem;
+    const todo = createHtmlElement({
+        element: "div",
+        id: id,
+        className: "todo",
+    });
     // todo text
     const text = createHtmlElement({
         element: "p",
@@ -87,16 +89,11 @@ const toggleItemDone = (event) => {
 const removeTodoItem = (event) => {
     event.preventDefault();
     const todoItem = event.target.parentElement;
+    const todoId = event.target.parentElement.id;
     todoItem.addEventListener("animationend", () => {
-        //remove from localstorage
-        const text = todoItem.children[0].innerText;
-        const myListArray = JSON.parse(todoList);
-        myListArray.forEach((item, index) => {
-            if (item.myTodoText == text) {
-                myListArray.splice(index, 1);
-                localStorage.setItem("list", JSON.stringify(myListArray));
-            }
-        });
+        myListArray = myListArray.filter((item) => item.id != todoId);
+        localStorage.setItem("list", JSON.stringify(myListArray));
+        if (myListArray.length == 0) localStorage.removeItem("list");
         todoItem.remove();
     });
     todoItem.style.animation = "scaleDown 0.3s forwards";
@@ -105,8 +102,9 @@ const removeTodoItem = (event) => {
 const updateLocalStorage = (item) => {
     if (todoList === null) {
         localStorage.setItem("list", JSON.stringify([item]));
+        todoList = localStorage.getItem("list");
     } else {
-        let myListArray = JSON.parse(todoList);
+        myListArray=JSON.parse(todoList);
         myListArray.push(item);
         localStorage.setItem("list", JSON.stringify(myListArray));
     }
