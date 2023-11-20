@@ -72,6 +72,9 @@ form {
 
     .todo-text {
       width: 50%;
+      &.edit{
+        border: 1px solid #563e2f;
+      }
     }
 
     .todo-date {

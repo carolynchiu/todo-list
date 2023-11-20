@@ -7,8 +7,9 @@ const dayInput = document.getElementById("input--day");
 const checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
 const removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
 const editIcon = `<ion-icon name="create-outline" class="btn--icon"></ion-icon>`;
+const editDoneIcon = `<ion-icon name="checkmark-done-outline" class="btn--icon"></ion-icon>`;
 let todoList = localStorage.getItem("list");
-let myListArray = JSON.parse(todoList);
+let myListArray = JSON.parse(todoList) || [];
 
 const validateInput = () => {
     if (!todoInput.value) {
@@ -41,7 +42,7 @@ const createHtmlElement = (elementProperties) => {
     return domElement;
 };
 
-const createTodoList = (ListItem) => {
+const addTodoElement = (ListItem) => {
     const { id, content, month, day } = ListItem;
     const todo = createHtmlElement({
         element: "div",
@@ -96,6 +97,80 @@ const toggleItemDone = (event) => {
     event.preventDefault();
     const todoItem = event.target.parentElement;
     todoItem.classList.toggle("done");
+
+    //TODO: 處理資料
+};
+
+const updateLocalStorage = (array) => {
+    if (array.length == 0) {
+        localStorage.removeItem("list");
+        return;
+    }
+    localStorage.setItem("list", JSON.stringify(array));
+};
+
+const addTodoItem = () => {
+    // 表單驗證
+    if (!validateInput()) return;
+    // 新增 DOM
+    let item = {
+        id: uuidv4(),
+        content: todoInput.value,
+        month: monthInput.value,
+        day: dayInput.value,
+    };
+    const todo = addTodoElement(item);
+    todo.style.animation = "scaleUp 0.3s forwards";
+    todoContainer.appendChild(todo);
+    // clean input
+    cleanInputFields();
+
+    // 處理資料
+    myListArray.push(item);
+    updateLocalStorage(myListArray);
+};
+
+const editTodoItem = (event) => {
+    const todoId = event.target.parentElement.id;
+    const todoItem = event.target.parentElement;
+    const todoText = todoItem.children[1];
+    const editButton = event.target;
+    console.log(todoId);
+
+    // 新增完成按鈕
+    const editDoneButton = createHtmlElement({
+        element: "button",
+        className: "btn--edit",
+        innerHTML: editDoneIcon,
+    });
+    editButton.insertAdjacentElement("afterend", editDoneButton);
+
+    // 隱藏編輯按鈕
+    editButton.style.display = "none";
+
+    // 修改內容
+    todoText.removeAttribute("disabled");
+    todoText.classList.add("edit");
+    let newValue = "";
+    todoText.addEventListener("input", (e) => {
+        newValue = e.target.value;
+    });
+
+    //儲存修改後的內容
+    editDoneButton.addEventListener("click", () => {
+        todoText.value = newValue;
+        todoText.setAttribute("disabled", null);
+        todoText.classList.remove("edit");
+        editButton.style.display = "block";
+        editDoneButton.style.display = "none";
+
+        //處理 localStorage
+        myListArray = myListArray.map((item) => {
+            if (item.id == todoId) item.content = newValue;
+            return item;
+        });
+        updateLocalStorage(myListArray);
+    });
 };
 
 const removeTodoItem = (event) => {
@@ -104,59 +179,25 @@ const removeTodoItem = (event) => {
     const todoId = event.target.parentElement.id;
     todoItem.addEventListener("animationend", () => {
         myListArray = myListArray.filter((item) => item.id != todoId);
-        localStorage.setItem("list", JSON.stringify(myListArray));
-        if (myListArray.length == 0) localStorage.removeItem("list");
+        updateLocalStorage(myListArray);
+        // if (myListArray.length == 0) localStorage.removeItem("list");
         todoItem.remove();
     });
     todoItem.style.animation = "scaleDown 0.3s forwards";
-};
-
-const editTodoItem = (event) => {
-    const todoItem = event.target.parentElement;
-    console.log(event, todoItem, todoItem.children);
-};
-
-const updateLocalStorage = (item) => {
-    if (todoList === null) {
-        localStorage.setItem("list", JSON.stringify([item]));
-        todoList = localStorage.getItem("list");
-    } else {
-        myListArray = JSON.parse(todoList);
-        myListArray.push(item);
-        localStorage.setItem("list", JSON.stringify(myListArray));
-    }
-};
-
-const addTodo = () => {
-    // 表單驗證
-    if (!validateInput()) return;
-    // 新增 todo item
-    let item = {
-        id: uuidv4(),
-        content: todoInput.value,
-        month: monthInput.value,
-        day: dayInput.value,
-    };
-    const todo = createTodoList(item);
-    updateLocalStorage(item);
-    todo.style.animation = "scaleUp 0.3s forwards";
-    todoContainer.appendChild(todo);
-    // clean input
-    cleanInputFields();
 };
 
 // add todo list item
 addButton.addEventListener("click", (e) => {
     e.preventDefault();
     // create a todo
-    addTodo();
+    addTodoItem();
 });
 
 if (todoList !== null) {
     let myListArray = JSON.parse(todoList);
     myListArray.forEach((item) => {
         // create a todo
-        const todo = createTodoList({
+        const todo = addTodoElement({
             id: item.id,
             content: item.content,
             month: item.month,

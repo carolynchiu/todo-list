@@ -68,6 +68,9 @@ form button {
 .section--todo .todo .todo-text {
   width: 50%;
 }
+.section--todo .todo .todo-text.edit {
+  border: 1px solid #563e2f;
+}
 .section--todo .todo .todo-date {
   width: 20%;
   text-align: center;
