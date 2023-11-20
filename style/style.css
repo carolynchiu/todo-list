@@ -52,6 +52,7 @@ form button {
   justify-content: center;
   align-items: center;
   width: 50vw;
+  height: 50px;
   margin: 0.2rem;
   transition: all 0.3s ease;
 }
@@ -59,8 +60,10 @@ form button {
 .section--todo .todo .todo-date {
   background-color: #fffcf2;
   color: #563e2f;
+  height: 100%;
   padding: 0.25rem 0.5rem;
   font-size: 1.75rem;
+  border: none;
 }
 .section--todo .todo .todo-text {
   width: 50%;
@@ -70,13 +73,19 @@ form button {
   text-align: center;
 }
 .section--todo .todo .btn--check,
-.section--todo .todo .btn--remove {
+.section--todo .todo .btn--remove,
+.section--todo .todo .btn--edit {
   cursor: pointer;
   background-color: #a3aa8b;
   color: #fff;
   padding: 0.5rem 0.5rem;
   font-size: 1.75rem;
   border: none;
+}
+.section--todo .todo .btn--edit {
+  background-color: #fffcf2;
+  color: #bbb2ac;
+  font-weight: 300;
 }
 .section--todo .todo .btn--remove {
   background-color: #88363f;

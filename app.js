@@ -6,6 +6,7 @@ const monthInput = document.getElementById("input--month");
 const dayInput = document.getElementById("input--day");
 const checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
 const removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
+const editIcon = `<ion-icon name="create-outline" class="btn--icon"></ion-icon>`;
 let todoList = localStorage.getItem("list");
 let myListArray = JSON.parse(todoList);
 
@@ -28,12 +29,15 @@ const cleanInputFields = () => {
 };
 
 const createHtmlElement = (elementProperties) => {
-    const { element, id, className, innerText, innerHTML } = elementProperties;
+    const { element, id, className, innerText, innerHTML, value, disabled } =
+        elementProperties;
     let domElement = document.createElement(element);
     if (id) domElement.setAttribute("id", id);
     if (className) domElement.classList.add(className);
     if (innerText) domElement.innerText = innerText;
     if (innerHTML) domElement.innerHTML = innerHTML;
+    if (value) domElement.value = value;
+    if (disabled) domElement.setAttribute("disabled", null);
     return domElement;
 };
 
@@ -44,13 +48,6 @@ const createTodoList = (ListItem) => {
         id: id,
         className: "todo",
     });
-    // todo text
-    const text = createHtmlElement({
-        element: "p",
-        className: "todo-text",
-        innerText: content,
-    });
-    todo.appendChild(text);
     // todo date
     let dateValue = `${month} / ${day}`;
     const date = createHtmlElement({
@@ -59,6 +56,21 @@ const createTodoList = (ListItem) => {
         innerText: dateValue,
     });
     todo.appendChild(date);
+    // todo text
+    const text = createHtmlElement({
+        element: "input",
+        className: "todo-text",
+        value: content,
+        disabled: true,
+    });
+    todo.appendChild(text);
+    // create edit button
+    const editButton = createHtmlElement({
+        element: "button",
+        className: "btn--edit",
+        innerHTML: editIcon,
+    });
+    todo.appendChild(editButton);
     // create check button
     const checkButton = createHtmlElement({
         element: "button",
@@ -76,7 +88,7 @@ const createTodoList = (ListItem) => {
 
     checkButton.addEventListener("click", (e) => toggleItemDone(e));
     removeButton.addEventListener("click", (e) => removeTodoItem(e));
-
+    editButton.addEventListener("click", (e) => editTodoItem(e));
     return todo;
 };
 
@@ -99,12 +111,17 @@ const removeTodoItem = (event) => {
     todoItem.style.animation = "scaleDown 0.3s forwards";
 };
 
+const editTodoItem = (event) => {
+    const todoItem = event.target.parentElement;
+    console.log(event, todoItem, todoItem.children);
+};
+
 const updateLocalStorage = (item) => {
     if (todoList === null) {
         localStorage.setItem("list", JSON.stringify([item]));
         todoList = localStorage.getItem("list");
     } else {
-        myListArray=JSON.parse(todoList);
+        myListArray = JSON.parse(todoList);
         myListArray.push(item);
         localStorage.setItem("list", JSON.stringify(myListArray));
     }
