@@ -1,10 +1,12 @@
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 const addButton = document.querySelector(".btn--add");
 const todoContainer = document.querySelector(".section--todo");
-let todoInput = document.getElementById("input--text");
-let monthInput = document.getElementById("input--month");
-let dayInput = document.getElementById("input--day");
-let checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
-let removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
+const todoInput = document.getElementById("input--text");
+const monthInput = document.getElementById("input--month");
+const dayInput = document.getElementById("input--day");
+const checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
+const removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
+const todoList = localStorage.getItem("list");
 
 const validateInput = () => {
     if (!todoInput.value) {
@@ -88,7 +90,7 @@ const removeTodoItem = (event) => {
     todoItem.addEventListener("animationend", () => {
         //remove from localstorage
         const text = todoItem.children[0].innerText;
-        const myListArray = JSON.parse(localStorage.getItem("list"));
+        const myListArray = JSON.parse(todoList);
         myListArray.forEach((item, index) => {
             if (item.myTodoText == text) {
                 myListArray.splice(index, 1);
@@ -100,22 +102,12 @@ const removeTodoItem = (event) => {
     todoItem.style.animation = "scaleDown 0.3s forwards";
 };
 
-const updateLocalStorage = () => {
-    // create an object
-    let myTodo = {
-        myTodoText: todoInput.value,
-        myTodoMonth: monthInput.value,
-        myTodoDay: dayInput.value,
-    };
-
-    // store data into an array of object
-    let myList = localStorage.getItem("list");
-
-    if (myList === null) {
-        localStorage.setItem("list", JSON.stringify([myTodo]));
+const updateLocalStorage = (item) => {
+    if (todoList === null) {
+        localStorage.setItem("list", JSON.stringify([item]));
     } else {
-        let myListArray = JSON.parse(myList);
-        myListArray.push(myTodo);
+        let myListArray = JSON.parse(todoList);
+        myListArray.push(item);
         localStorage.setItem("list", JSON.stringify(myListArray));
     }
 };
@@ -124,14 +116,16 @@ const addTodo = () => {
     // 表單驗證
     if (!validateInput()) return;
     // 新增 todo item
-    const todo = createTodoList({
+    let item = {
+        id: uuidv4(),
         content: todoInput.value,
         month: monthInput.value,
         day: dayInput.value,
-    });
+    };
+    const todo = createTodoList(item);
+    updateLocalStorage(item);
     todo.style.animation = "scaleUp 0.3s forwards";
     todoContainer.appendChild(todo);
-    updateLocalStorage();
     // clean input
     cleanInputFields();
 };
@@ -143,16 +137,15 @@ addButton.addEventListener("click", (e) => {
     addTodo();
 });
 
-const myList = localStorage.getItem("list");
-
-if (myList !== null) {
-    let myListArray = JSON.parse(myList);
+if (todoList !== null) {
+    let myListArray = JSON.parse(todoList);
     myListArray.forEach((item) => {
         // create a todo
         const todo = createTodoList({
-            content: item.myTodoText,
-            month: item.myTodoMonth,
-            day: item.myTodoDay,
+            id: item.id,
+            content: item.content,
+            month: item.month,
+            day: item.day,
         });
         todoContainer.appendChild(todo);
     });
