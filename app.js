@@ -92,10 +92,13 @@ const addTodoElement = (ListItem) => {
 
 const toggleItemDone = (event) => {
     event.preventDefault();
+    const todoId = event.target.parentElement.id;
     const todoItem = event.target.parentElement;
     todoItem.classList.toggle("done");
-
-    //TODO: 處理資料
+    myListArray.forEach((item) => {
+        if (item.id == todoId) item.completed = !item.completed;
+    });
+    updateLocalStorage(myListArray);
 };
 
 const updateLocalStorage = (array) => {
@@ -114,6 +117,7 @@ const addTodoItem = () => {
         id: uuidv4(),
         content: todoInput.value,
         dateTime: dateInput.value,
+        completed: false,
     };
     const todo = addTodoElement(item);
     todo.style.animation = "scaleUp 0.3s forwards";
@@ -131,7 +135,9 @@ const editTodoItem = (event) => {
     const todoItem = event.target.parentElement;
     const todoText = todoItem.children[1];
     const editButton = event.target;
-    console.log(todoId);
+    const listItem = myListArray.find((item) => item.id == todoId);
+
+    if (listItem.completed) return;
 
     // 新增完成按鈕
     const editDoneButton = createHtmlElement({
@@ -147,8 +153,8 @@ const editTodoItem = (event) => {
     // 修改內容
     todoText.removeAttribute("disabled");
     todoText.classList.add("edit");
-    let newValue = "";
-    todoText.addEventListener("input", (e) => {
+    let newValue = todoText.value;
+    todoText.addEventListener("change", (e) => {
         newValue = e.target.value;
     });
 
@@ -176,7 +182,6 @@ const removeTodoItem = (event) => {
     todoItem.addEventListener("animationend", () => {
         myListArray = myListArray.filter((item) => item.id != todoId);
         updateLocalStorage(myListArray);
-        // if (myListArray.length == 0) localStorage.removeItem("list");
         todoItem.remove();
     });
     todoItem.style.animation = "scaleDown 0.3s forwards";
@@ -197,7 +202,9 @@ if (todoList !== null) {
             id: item.id,
             content: item.content,
             dateTime: item.dateTime,
+            completed: item.completed,
         });
+        if (item.completed) todo.classList.add("done");
         todoContainer.appendChild(todo);
     });
 }
