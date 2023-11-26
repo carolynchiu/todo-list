@@ -66,19 +66,20 @@ form {
       color: #563e2f;
       height: 100%;
       padding: 0.25rem 0.5rem;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       border: none;
     }
 
     .todo-text {
       width: 50%;
-      &.edit{
+
+      &.edit {
         border: 1px solid #563e2f;
       }
     }
 
     .todo-date {
-      width: 20%;
+      width: 30%;
       text-align: center;
     }
 
@@ -160,6 +161,11 @@ ion-icon {
     border: none;
     border-bottom: 1px solid #515151;
     background: transparent;
+
+    &.input--date {
+      font-size: 14px;
+      width: 160px;
+    }
 
     &--todo {
       width: 350px;

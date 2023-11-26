@@ -2,8 +2,7 @@ import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 const addButton = document.querySelector(".btn--add");
 const todoContainer = document.querySelector(".section--todo");
 const todoInput = document.getElementById("input--text");
-const monthInput = document.getElementById("input--month");
-const dayInput = document.getElementById("input--day");
+const dateInput = document.getElementById("input--date");
 const checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
 const removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
 const editIcon = `<ion-icon name="create-outline" class="btn--icon"></ion-icon>`;
@@ -16,7 +15,7 @@ const validateInput = () => {
         alert("Please enter some text !");
         return false;
     }
-    if (!monthInput.value || !dayInput.value) {
+    if (!dateInput.value) {
         alert("Please enter month and date");
         return false;
     }
@@ -25,8 +24,7 @@ const validateInput = () => {
 
 const cleanInputFields = () => {
     todoInput.value = "";
-    monthInput.value = "";
-    dayInput.value = "";
+    dateInput.value = "";
 };
 
 const createHtmlElement = (elementProperties) => {
@@ -43,18 +41,17 @@ const createHtmlElement = (elementProperties) => {
 };
 
 const addTodoElement = (ListItem) => {
-    const { id, content, month, day } = ListItem;
+    const { id, content, dateTime } = ListItem;
+    console.log(new Date(dateTime).getTime());
     const todo = createHtmlElement({
         element: "div",
         id: id,
         className: "todo",
     });
-    // todo date
-    let dateValue = `${month} / ${day}`;
     const date = createHtmlElement({
         element: "p",
         className: "todo-date",
-        innerText: dateValue,
+        innerText: dateTime,
     });
     todo.appendChild(date);
     // todo text
@@ -116,8 +113,7 @@ const addTodoItem = () => {
     let item = {
         id: uuidv4(),
         content: todoInput.value,
-        month: monthInput.value,
-        day: dayInput.value,
+        dateTime: dateInput.value,
     };
     const todo = addTodoElement(item);
     todo.style.animation = "scaleUp 0.3s forwards";
@@ -200,8 +196,7 @@ if (todoList !== null) {
         const todo = addTodoElement({
             id: item.id,
             content: item.content,
-            month: item.month,
-            day: item.day,
+            dateTime: item.dateTime,
         });
         todoContainer.appendChild(todo);
     });

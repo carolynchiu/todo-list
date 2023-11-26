@@ -18,37 +18,16 @@
     <body>
         <header><h1>My Todo List</h1></header>
         <form>
-            <!-- month -->
+            <!-- date -->
             <div class="wave-group">
                 <input
                     required=""
-                    type="number"
-                    class="input input--mm"
-                    id="input--month"
-                    min="1"
-                    max="12"
+                    type="date"
+                    class="input input--date"
+                    id="input--date"
                 />
                 <span class="bar"></span>
-                <label class="label">
-                    <span class="label-char" style="--index: 0">M</span>
-                    <span class="label-char" style="--index: 1">M</span>
-                </label>
-            </div>
-            <!-- day -->
-            <div class="wave-group">
-                <input
-                    required=""
-                    type="number"
-                    class="input input--dd"
-                    id="input--day"
-                    min="1"
-                    max="31"
-                />
-                <span class="bar"></span>
-                <label class="label">
-                    <span class="label-char" style="--index: 0">D</span>
-                    <span class="label-char" style="--index: 1">D</span>
-                </label>
+                <label class="label"></label>
             </div>
             <!-- todo content -->
             <div class="wave-group">
@@ -72,9 +51,9 @@
             </button>
         </form>
 
-        <!-- <div class="sort">
+        <div class="sort">
             <button>Sort By Time</button>
-        </div> -->
+        </div>
 
         <section class="section--todo"></section>
     </body>
