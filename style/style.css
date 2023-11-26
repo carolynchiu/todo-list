@@ -26,7 +26,7 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
 form button {
   padding: 0.25rem 0.5rem;
@@ -53,8 +53,8 @@ form button {
   align-items: center;
   width: 50vw;
   height: 50px;
-  margin: 0.2rem;
   transition: all 0.3s ease;
+  margin-bottom: 2px;
 }
 .section--todo .todo .todo-text,
 .section--todo .todo .todo-date {
@@ -101,15 +101,20 @@ form button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  margin-bottom: 5px;
 }
-.sort button {
+.sort .btn--sort {
   cursor: pointer;
   background-color: #43465f;
   color: #fff;
   padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
   border: none;
+  display: flex;
+  align-items: center;
+}
+.sort .btn--sort .sort--icon {
+  padding: 0 0 0 3px;
 }
 
 ion-icon {

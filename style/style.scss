@@ -28,7 +28,7 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 
   button {
     padding: 0.25rem 0.5rem;
@@ -57,8 +57,8 @@ form {
     align-items: center;
     width: 50vw;
     height: 50px;
-    margin: 0.2rem;
     transition: all 0.3s ease;
+    margin-bottom: 2px;
 
     .todo-text,
     .todo-date {
@@ -114,15 +114,21 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  margin-bottom: 5px;
 
-  button {
+  .btn--sort {
     cursor: pointer;
     background-color: #43465f;
     color: #fff;
     padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
     border: none;
+    display: flex;
+    align-items: center;
+
+    .sort--icon {
+      padding: 0 0 0 3px;
+    }
   }
 }
 

@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 const addButton = document.querySelector(".btn--add");
+const sortButton = document.querySelector(".btn--sort");
 const todoContainer = document.querySelector(".section--todo");
 const todoInput = document.getElementById("input--text");
 const dateInput = document.getElementById("input--date");
+const sortIcon = document.querySelector(".sort--icon");
 const checkIcon = `<ion-icon name="checkmark-outline" class="btn--icon"></ion-icon>`;
 const removeIcon = `<ion-icon name="close-outline" class="btn--icon"></ion-icon>`;
 const editIcon = `<ion-icon name="create-outline" class="btn--icon"></ion-icon>`;
@@ -42,7 +44,6 @@ const createHtmlElement = (elementProperties) => {
 
 const addTodoElement = (ListItem) => {
     const { id, content, dateTime } = ListItem;
-    console.log(new Date(dateTime).getTime());
     const todo = createHtmlElement({
         element: "div",
         id: id,
@@ -187,6 +188,54 @@ const removeTodoItem = (event) => {
     todoItem.style.animation = "scaleDown 0.3s forwards";
 };
 
+const sortByTime = (array, type) => {
+    const sortedArray =
+        type == "asc"
+            ? array
+                  .slice()
+                  .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
+            : array
+                  .slice()
+                  .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+    todoContainer.innerHTML = "";
+    renderTodoList(sortedArray);
+};
+
+const renderTodoList = (list) => {
+    if (todoList !== null) {
+        list.forEach((item) => {
+            // create a todo
+            const todo = addTodoElement({
+                id: item.id,
+                content: item.content,
+                dateTime: item.dateTime,
+                completed: item.completed,
+            });
+            if (item.completed) todo.classList.add("done");
+            todoContainer.appendChild(todo);
+        });
+    }
+};
+
+// sort todo list item
+sortButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    let targetName = e.target.name;
+    if (targetName == "asc") {
+        e.target.name = "des";
+        sortIcon.name = "caret-down-outline";
+        sortByTime(myListArray, "des");
+    } else if (targetName == "des") {
+        e.target.name = "asc";
+        sortIcon.name = "caret-up-outline";
+        sortByTime(myListArray, "asc");
+    } else {
+        e.target.name = "asc";
+        sortIcon.name = "caret-up-outline";
+        sortByTime(myListArray, "asc");
+    }
+});
+
 // add todo list item
 addButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -194,18 +243,5 @@ addButton.addEventListener("click", (e) => {
     addTodoItem();
 });
 
-if (todoList !== null) {
-    let myListArray = JSON.parse(todoList);
-    myListArray.forEach((item) => {
-        // create a todo
-        const todo = addTodoElement({
-            id: item.id,
-            content: item.content,
-            dateTime: item.dateTime,
-            completed: item.completed,
-        });
-        if (item.completed) todo.classList.add("done");
-        todoContainer.appendChild(todo);
-    });
-}
+renderTodoList(myListArray);
 
