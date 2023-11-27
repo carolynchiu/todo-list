@@ -3,24 +3,11 @@ import { FormModule } from "./modules/formModule.js";
 import { ListModule } from "./modules/listModule.js";
 let { myListArray } = LocalStorageModule;
 const { addTodoItem } = FormModule;
-const { renderTodoList } = ListModule;
+const { renderTodoList, sortByTime } = ListModule;
 const addButton = document.querySelector(".btn--add");
 const sortButton = document.querySelector(".btn--sort");
 const todoContainer = document.querySelector(".section--todo");
 const sortIcon = document.querySelector(".sort--icon");
-
-const sortByTime = (array, type) => {
-    const sortedArray =
-        type == "asc"
-            ? array
-                  .slice()
-                  .sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime))
-            : array
-                  .slice()
-                  .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
-    todoContainer.innerHTML = "";
-    renderTodoList(sortedArray, todoContainer);
-};
 
 // sort todo list item
 sortButton.addEventListener("click", (e) => {
@@ -48,5 +35,5 @@ addButton.addEventListener("click", (e) => {
     addTodoItem(todoContainer);
 });
 
-renderTodoList(myListArray, todoContainer);
+renderTodoList(myListArray);
 
