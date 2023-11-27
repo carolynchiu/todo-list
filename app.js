@@ -1,39 +1,13 @@
 import { LocalStorageModule } from "./modules/localStorageModule.js";
 import { FormModule } from "./modules/formModule.js";
 import { ListModule } from "./modules/listModule.js";
-import { ItemModule } from "./modules/itemModule.js";
-let { myListArray, updateLocalStorage, uuidv4 } = LocalStorageModule;
-const { validateInput, cleanInputFields } = FormModule;
+let { myListArray } = LocalStorageModule;
+const { addTodoItem } = FormModule;
 const { renderTodoList } = ListModule;
-const { addTodoElement } = ItemModule;
 const addButton = document.querySelector(".btn--add");
 const sortButton = document.querySelector(".btn--sort");
 const todoContainer = document.querySelector(".section--todo");
-const todoInput = document.getElementById("input--text");
-const dateInput = document.getElementById("input--date");
 const sortIcon = document.querySelector(".sort--icon");
-
-
-const addTodoItem = () => {
-    // 表單驗證
-    if (!validateInput(todoInput, dateInput)) return;
-    // 新增 DOM
-    let item = {
-        id: uuidv4(),
-        content: todoInput.value,
-        dateTime: dateInput.value,
-        completed: false,
-    };
-    const todo = addTodoElement(item);
-    todo.style.animation = "scaleUp 0.3s forwards";
-    todoContainer.appendChild(todo);
-    // clean input
-    cleanInputFields(todoInput, dateInput);
-
-    // 處理資料
-    myListArray.push(item);
-    updateLocalStorage(myListArray);
-};
 
 const sortByTime = (array, type) => {
     const sortedArray =
@@ -71,7 +45,7 @@ sortButton.addEventListener("click", (e) => {
 addButton.addEventListener("click", (e) => {
     e.preventDefault();
     // create a todo
-    addTodoItem();
+    addTodoItem(todoContainer);
 });
 
 renderTodoList(myListArray, todoContainer);
